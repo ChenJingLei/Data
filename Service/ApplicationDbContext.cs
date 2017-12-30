@@ -10,4 +10,5 @@ namespace Data.Service
             optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MyDatabase;Trusted_Connection=True;");
         }
     }
+    
 }
