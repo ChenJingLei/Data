@@ -1,3 +1,6 @@
+using Data.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace Data.Service
 {
     public class ApplicationDbContext : DbContext

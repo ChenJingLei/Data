@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
+	<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
 
 </Project>

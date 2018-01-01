@@ -1,0 +1,26 @@
+C:\Users\cjl2020\Desktop\Data\Data\obj\Debug\netcoreapp2.0\Data.csprojResolveAssemblyReference.cache
+C:\Users\cjl2020\Desktop\Data\Data\obj\Debug\netcoreapp2.0\Data.csproj.CoreCompileInputs.cache
+C:\Users\cjl2020\Desktop\Data\Data\obj\Debug\netcoreapp2.0\Data.AssemblyInfoInputs.cache
+C:\Users\cjl2020\Desktop\Data\Data\obj\Debug\netcoreapp2.0\Data.AssemblyInfo.cs
+C:\Users\cjl2020\Desktop\Data\Data\bin\Debug\netcoreapp2.0\Data.deps.json
+C:\Users\cjl2020\Desktop\Data\Data\bin\Debug\netcoreapp2.0\Data.runtimeconfig.json
+C:\Users\cjl2020\Desktop\Data\Data\bin\Debug\netcoreapp2.0\Data.runtimeconfig.dev.json
+C:\Users\cjl2020\Desktop\Data\Data\bin\Debug\netcoreapp2.0\Data.dll
+C:\Users\cjl2020\Desktop\Data\Data\bin\Debug\netcoreapp2.0\Data.pdb
+C:\Users\cjl2020\Desktop\Data\Data\obj\Debug\netcoreapp2.0\Data.dll
+C:\Users\cjl2020\Desktop\Data\Data\obj\Debug\netcoreapp2.0\Data.pdb
+C:\Users\cjl2020\Desktop\Data\Data\obj\Debug\netcoreapp2.0\Data.Properties.Resources.resources
+C:\Users\cjl2020\Desktop\Data\Data\obj\Debug\netcoreapp2.0\Data.csproj.GenerateResource.Cache
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\bin\Debug\netcoreapp2.0\Data.deps.json
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\bin\Debug\netcoreapp2.0\Data.runtimeconfig.json
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\bin\Debug\netcoreapp2.0\Data.runtimeconfig.dev.json
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\bin\Debug\netcoreapp2.0\Data.dll
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\bin\Debug\netcoreapp2.0\Data.pdb
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\obj\Debug\netcoreapp2.0\Data.csprojResolveAssemblyReference.cache
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\obj\Debug\netcoreapp2.0\Data.Properties.Resources.resources
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\obj\Debug\netcoreapp2.0\Data.csproj.GenerateResource.Cache
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\obj\Debug\netcoreapp2.0\Data.csproj.CoreCompileInputs.cache
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\obj\Debug\netcoreapp2.0\Data.AssemblyInfoInputs.cache
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\obj\Debug\netcoreapp2.0\Data.AssemblyInfo.cs
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\obj\Debug\netcoreapp2.0\Data.dll
+C:\Users\cjl2020\Documents\Visual Studio 2017\Projects\Data\Data\obj\Debug\netcoreapp2.0\Data.pdb
