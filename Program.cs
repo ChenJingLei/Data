@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
 
 
@@ -194,23 +195,26 @@ namespace Data
 
         static void ExportToDb()
         {
-            Regex regexNum = new Regex(@"[0-9]+");
+            List<Export> list = new List<Export>();
+
+
+            Regex regexNum = new Regex(@"[\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d\u53410-9]+");
 
             Regex regexBuildingArea = new Regex(@".*小区|.*社区|.*家属楼|.*家属院|.*综合楼|.*住宅楼|.*商住楼|.*公寓楼");
 
             Regex regexBuildingName = new Regex(@".*楼");
 
-            Regex regexBuildingNo = new Regex(@"[0-9]+号楼");
+            Regex regexBuildingNo = new Regex(@"[\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d\u53410-9]+号楼");
 
-            Regex regexUnit = new Regex(@"[0-9]+单元");
+            Regex regexUnit = new Regex(@"[\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d\u53410-9]+单元|[\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d\u53410-9]+号[^楼]");
 
-            Regex regexFloor = new Regex(@"[0-9]+层");
+            Regex regexFloor = new Regex(@"[\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d\u53410-9]+层|[\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d\u53410-9]+楼");
 
-            Regex regexRoom = new Regex(@"层[0-9]+");
+            Regex regexRoom = new Regex(@"[1-9][0-9]{2,4}");
 
             Regex regexDirectionUnit = new Regex(@"[东西左右中]单元");
 
-            Regex regexDirectionRoom = new Regex(@"[东西左右中][户门手]");
+            Regex regexDirectionRoom = new Regex(@"(层|楼)[东西左右中](户|门|手|侧|)");
 
             //string str = "武威市凉州区靶场法院东侧设计院家属楼2单元5层502";
 
@@ -279,25 +283,30 @@ namespace Data
 
                     //-----------------------地址-------------------------------------------
                     
-
+                    //楼号
                     if (regexBuildingNo.IsMatch(info.装机地址))
                     {
                         string buildingNo = regexBuildingNo.Match(info.装机地址).ToString();
-                        export.BuildingName = regexBuildingName.Match(info.装机地址).ToString().Trim();
+                        export.BuildingName =
+                            info.装机地址.Substring(0, info.装机地址.IndexOf(buildingNo, StringComparison.Ordinal));
+                        //export.BuildingName = regexBuildingName.Match(info.装机地址).ToString().Trim();
                         MatchCollection ms = regexNum.Matches(buildingNo);
-                        export.BuildingNo = Convert.ToInt32(ms[ms.Count - 1].ToString());
+                        export.BuildingNo = UpperToLower(ms[ms.Count - 1].ToString());
                     }
                     else if (regexBuildingName.IsMatch(info.装机地址))
                     {
                         export.BuildingName = regexBuildingName.Match(info.装机地址).ToString().Trim();
                     }
 
+                    //小区
                     if (regexBuildingArea.IsMatch(info.装机地址))
                     {
                         export.BuildingArea = regexBuildingArea.Match(info.装机地址).ToString().Trim();
                     }
                     else if(regexBuildingNo.IsMatch(info.装机地址))
                     {
+                        //有问题
+
                         export.BuildingArea = info.装机地址.Substring(0,
                             info.装机地址.IndexOf(export.BuildingNo + "号楼", StringComparison.Ordinal));
                     }
@@ -306,41 +315,20 @@ namespace Data
                         export.BuildingArea = export.BuildingName;
                     }
 
-                    if (regexUnit.IsMatch(info.装机地址))
-                    {
-                        string unit = regexUnit.Match(info.装机地址).ToString();
-                        MatchCollection ms = regexNum.Matches(unit);
-                        export.Unit = Convert.ToInt32(ms[ms.Count - 1].ToString());
-                    }
-                    else if(regexDirectionUnit.IsMatch(info.装机地址))
-                    {
-                        string unit = regexDirectionUnit.Match(info.装机地址).ToString();
-                        if (new Regex(@"[西左]").IsMatch(unit))
-                        {
-                            export.Unit = 1;
-                        }
-                        else if(new Regex(@"[右东]").IsMatch(unit))
-                        {
-                            export.Unit = 3;
-                        }
-                        else if (new Regex(@"[中]").IsMatch(unit))
-                        {
-                            export.Unit = 2;
-                        }
-                        
-                    }
-
+                    //楼层
                     if (regexFloor.IsMatch(info.装机地址))
                     {
                         string floor = regexFloor.Match(info.装机地址).ToString();
                         MatchCollection ms = regexNum.Matches(floor);
-                        export.Floor = Convert.ToInt32(ms[ms.Count - 1].ToString());
+                        export.Floor = UpperToLower(ms[ms.Count - 1].ToString());
                     }
 
+                    //房号
                     if (regexRoom.IsMatch(info.装机地址))
                     {
-                        string room = regexRoom.Match(info.装机地址).ToString();
-                        MatchCollection ms = regexNum.Matches(room);
+                        MatchCollection ms = regexRoom.Matches(info.装机地址);
+                        string room = ms[ms.Count-1].ToString();
+                        ms = regexNum.Matches(room);
                         export.Room = Convert.ToInt32(ms[ms.Count - 1].ToString());
                     }
                     else if (regexDirectionRoom.IsMatch(info.装机地址))
@@ -356,6 +344,60 @@ namespace Data
                         }
                     }
 
+                    if (export.Floor==0 && export.Room != 0)
+                    {
+                        export.Floor = export.Room / 100;
+                        if (export.Room <100 && regexDirectionRoom.IsMatch(info.装机地址))
+                        {
+                            string room = regexDirectionRoom.Match(info.装机地址).ToString();
+                            if (new Regex(@"[西左]").IsMatch(room))
+                            {
+                                export.Room = export.Floor * 100 + 1;
+                            }
+                            else if (new Regex(@"[右东]").IsMatch(room))
+                            {
+                                export.Room = export.Floor * 100 + 2;
+                            }
+                        }
+
+                    }
+
+                    //单元
+                    if (regexUnit.IsMatch(info.装机地址))
+                    {
+                        MatchCollection ms = regexUnit.Matches(info.装机地址);
+                        string unit = ms[ms.Count - 1].ToString();
+                        ms = regexNum.Matches(unit);
+                        export.Unit = UpperToLower(ms[ms.Count - 1].ToString());
+                    }
+                    else if (regexDirectionUnit.IsMatch(info.装机地址))
+                    {
+                        string unit = regexDirectionUnit.Match(info.装机地址).ToString();
+                        if (new Regex(@"[西左]").IsMatch(unit))
+                        {
+                            export.Unit = 1;
+                        }
+                        else if (new Regex(@"[右东]").IsMatch(unit))
+                        {
+                            export.Unit = 3;
+                        }
+                        else if (new Regex(@"[中]").IsMatch(unit))
+                        {
+                            export.Unit = 2;
+                        }
+                    }
+                    else if (export.Room != 0 && !string.IsNullOrEmpty(export.BuildingName))
+                    {
+                        export.Unit = 1;
+                    }
+
+
+                    if ((export.Unit <= 0  || export.Unit > 100)  || (export.Floor <= 0 || export.Floor >100) || export.Room < 100 || string.IsNullOrEmpty(export.BuildingName))
+                    {
+                        Console.WriteLine(@"buikldname:{0} buildingNo:{1} Unit:{2} Floor:{3} Room:{4}",export.BuildingName,export.BuildingNo, export.Unit,export.Floor,export.Room);
+                        list.Add(export);
+                    }
+
                     //-----------------------地址 END-------------------------------------------
 
 
@@ -363,6 +405,43 @@ namespace Data
                 }
 
                 db.SaveChanges();
+            }
+
+            
+        }
+
+
+        static int UpperToLower(string upper)
+        {
+            switch (upper)
+            {
+                case "一": return 1;
+                case "二": return 2;
+                case "三": return 3;
+                case "四": return 4;
+                case "五": return 5;
+                case "六": return 6;
+                case "七": return 7;
+                case "八": return 8;
+                case "九": return 9;
+                default: return Convert.ToInt32(upper);
+            }
+        }
+
+        static string LowerToUpper(int lower)
+        {
+            switch (lower)
+            {
+                case 1: return "一";
+                case 2: return "二";
+                case 3: return "三";
+                case 4: return "四";
+                case 5: return "五";
+                case 6: return "六";
+                case 7: return "七";
+                case 8: return "八";
+                case 9: return "九";
+                default: return lower.ToString();
             }
         }
     }
